@@ -7,6 +7,7 @@ import {db} from "@/db";
 import {EDbmsSchema} from "@/db/schema/types";
 import {eq} from "drizzle-orm";
 import {isUuidv4} from "@/utils/verify-uuid";
+import {withUpdatedAt} from "@/db/utils";
 
 export type databaseAgent = {
     name: string,
@@ -15,12 +16,13 @@ export type databaseAgent = {
 }
 
 export type Body = {
+    version: string,
     databases: databaseAgent[]
 }
 
 // Function to test the get file url presigned local
 export async function GET(request: Request) {
-    const url = await getFileUrlPresignedLocal({fileName:"d4a7fa35-2506-4d01-a612-a8ef2e2cc1c5.dump"})
+    const url = await getFileUrlPresignedLocal({fileName: "d4a7fa35-2506-4d01-a612-a8ef2e2cc1c5.dump"})
     return Response.json({
         message: url
     })
@@ -60,7 +62,10 @@ export async function POST(
 
         await db
             .update(drizzleDb.schemas.agent)
-            .set({lastContact: lastContact})
+            .set(withUpdatedAt({
+                version: body.version,
+                lastContact: lastContact
+            }))
             .where(eq(drizzleDb.schemas.agent.id, agentId));
 
         eventEmitter.emit('modification', {update: true});

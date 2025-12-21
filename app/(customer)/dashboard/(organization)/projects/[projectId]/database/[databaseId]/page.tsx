@@ -1,12 +1,10 @@
 import {PageParams} from "@/types/next";
 import {notFound, redirect} from "next/navigation";
-import {Page, PageActions, PageContent, PageDescription, PageTitle} from "@/features/layout/page";
+import {Page, PageContent, PageDescription, PageTitle} from "@/features/layout/page";
 import {BackupButton} from "@/components/wrappers/dashboard/backup/backup-button/backup-button";
 import {DatabaseTabs} from "@/components/wrappers/dashboard/projects/database/database-tabs";
 import {DatabaseKpi} from "@/components/wrappers/dashboard/projects/database/database-kpi";
-import {EditButton} from "@/components/wrappers/dashboard/database/edit-button/edit-button";
 import {CronButton} from "@/components/wrappers/dashboard/database/cron-button/cron-button";
-
 import {db} from "@/db";
 import {eq, and, inArray} from "drizzle-orm";
 import * as drizzleDb from "@/db";
@@ -92,22 +90,23 @@ export default async function RoutePage(props: PageParams<{
 
     const isMember = activeMember?.role === "member";
 
-
     return (
         <Page>
+
             <div className="justify-between gap-2 sm:flex">
-                <PageTitle className="flex flex-col md:flex-row items-center justify-between w-full">
-                    <div className=" w-full md:w-fit">
+                <PageTitle className="flex flex-col md:flex-row items-center justify-between w-full ">
+                    <div className="min-w-full md:min-w-fit ">
                         {capitalizeFirstLetter(dbItem.name)}
                     </div>
                     {!isMember && (
-                        <div className="flex items-center gap-2 md:justify-between w-full">
+                        <div className="flex items-center gap-2 md:justify-between w-full ">
                             <div className="flex items-center gap-2">
                                 {/* Do not delete*/}
                                 {/*<EditButton/>*/}
                                 <RetentionPolicySheet database={dbItem}/>
                                 <CronButton database={dbItem}/>
-                                <AlertPolicyModal database={dbItem} notificationChannels={activeOrganizationChannels} organizationId={organization.id} />
+                                <AlertPolicyModal database={dbItem} notificationChannels={activeOrganizationChannels}
+                                                  organizationId={organization.id}/>
                             </div>
                             <div className="flex items-center gap-2">
                                 <BackupButton disable={isAlreadyBackup} databaseId={databaseId}/>
@@ -115,6 +114,8 @@ export default async function RoutePage(props: PageParams<{
                         </div>
                     )}
                 </PageTitle>
+
+
             </div>
 
             {dbItem.description && (

@@ -8,9 +8,6 @@ import {member, OrganizationMember} from "@/db/schema/04_member";
 import {User} from "@/db/schema/02_user";
 import {timestamps} from "@/db/schema/00_common";
 import {NotificationChannel, organizationNotificationChannel} from "@/db/schema/09_notification-channel";
-import {Agent} from "@/db/schema/08_agent";
-import {AlertPolicy} from "@/db/schema/10_alert-policy";
-import {Backup, Database, Restoration, RetentionPolicy} from "@/db/schema/07_database";
 
 export const organization = pgTable("organization", {
     id: uuid("id").defaultRandom().primaryKey(),

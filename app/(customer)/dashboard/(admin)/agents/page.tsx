@@ -18,8 +18,13 @@ export const metadata: Metadata = {
 export default async function RoutePage(props: PageParams<{}>) {
 
     const agents = await db.query.agent.findMany({
-        where: not(eq(drizzleDb.schemas.agent.isArchived, true))
+        where: not(eq(drizzleDb.schemas.agent.isArchived, true)),
+        with: {
+            databases: true
+        }
     });
+
+    console.log(agents);
 
 
     if (!agents) {
