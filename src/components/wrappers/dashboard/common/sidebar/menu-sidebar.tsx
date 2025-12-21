@@ -91,7 +91,7 @@ export const SidebarMenuCustomBase = ({ baseUrl, items }: SidebarMenuCustomBaseP
                 <Collapsible key={index} defaultOpen className="group/group-collapsible">
                     <SidebarGroup>
                         <SidebarGroupLabel asChild>
-                            <CollapsibleTrigger className="flex w-full items-center text-sm font-medium text-sidebar-foreground/70">
+                            <CollapsibleTrigger disabled={group.type == "list"} className="flex w-full items-center text-sm font-medium text-sidebar-foreground/70">
                                 {group.label}
                                 {group.type === "collapse" && (
                                     <ChevronDown className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/group-collapsible:rotate-180" />

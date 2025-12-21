@@ -24,7 +24,7 @@ export const SidebarLogo = ({projectName}: {
 
     return (
         <div className="ml-1 flex items-center justify-center">
-            <Link href={"/"}>
+            <Link href={"/dashboard/home"}>
                 {state === 'collapsed' && !isMobile ? (
                     <Image
                         loading="eager"
