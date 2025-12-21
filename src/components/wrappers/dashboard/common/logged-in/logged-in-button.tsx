@@ -12,7 +12,8 @@ export const LoggedInButton = async () => {
     const currentSession = await getSession();
     const accounts = await getAccounts();
 
-    if (!user) return null;
+    // if (!user) return null;
+
 
     return (
         <>
@@ -29,11 +30,11 @@ export const LoggedInButton = async () => {
                 <SidebarMenuButton>
 
                     <Avatar className="size-6">
-                        <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
-                        {user.image ? <AvatarImage src={user.image} alt={`${user.name ?? "-"}'s profile picture`} /> : null}
+                        <AvatarFallback>{user?.name[0].toUpperCase()}</AvatarFallback>
+                        {user?.image ? <AvatarImage src={user?.image} alt={`${user.name ?? "-"}'s profile picture`} /> : null}
                     </Avatar>
 
-                    <span className="first-letter:capitalize">{user.name}</span>
+                    <span className="first-letter:capitalize">{user?.name}</span>
                     <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
             </LoggedInDropdown>
