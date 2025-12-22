@@ -1,5 +1,5 @@
 import {relations} from "drizzle-orm";
-import {boolean, pgTable, text, timestamp, uuid} from "drizzle-orm/pg-core";
+import {boolean, integer, pgEnum, pgTable, text, timestamp, uuid} from "drizzle-orm/pg-core";
 import {createSelectSchema} from "drizzle-zod";
 import {z} from "zod";
 import {project} from "./06_project";
@@ -9,6 +9,9 @@ import {organization} from "@/db/schema/03_organization";
 import {Account as BetterAuthAccount} from "better-auth";
 import {timestamps} from "@/db/schema/00_common";
 
+export const userThemeEnum = pgEnum("user_themes", ["light", "dark", "system"]);
+
+
 export const user = pgTable("user", {
     id: uuid("id").defaultRandom().primaryKey(),
     name: text("name").notNull(),
@@ -16,6 +19,7 @@ export const user = pgTable("user", {
     emailVerified: boolean("email_verified").notNull(),
     image: text("image"),
     role: text("role"),
+    theme: userThemeEnum().notNull().default("light"),
     banned: boolean("banned"),
     banReason: text("ban_reason"),
     banExpires: timestamp("ban_expires"),
@@ -64,6 +68,31 @@ export const verification = pgTable("verification", {
     expiresAt: timestamp("expires_at").notNull(),
     ...timestamps
 
+});
+
+export const passkey = pgTable("passkey", {
+    id: uuid().defaultRandom().primaryKey(),
+    name: text(),
+    publicKey: text().notNull(),
+    userId: uuid()
+        .notNull()
+        .references(() => user.id, {onDelete: "cascade"}),
+    credentialId: text().notNull(),
+    counter: integer().notNull(),
+    deviceType: text().notNull(),
+    backedUp: boolean().notNull(),
+    transports: text(),
+
+    ...timestamps,
+});
+
+export const twoFactor = pgTable("two_factor", {
+    id: uuid().defaultRandom().primaryKey(),
+    secret: text("secret").notNull(),
+    backupCodes: text("backup_codes").notNull(),
+    userId: uuid("user_id")
+        .notNull()
+        .references(() => user.id, {onDelete: "cascade"}),
 });
 
 export const userRelations = relations(user, ({many}) => ({

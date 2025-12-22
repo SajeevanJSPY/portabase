@@ -21,6 +21,7 @@ export const auth = betterAuth({
         provider: "pg",
         schema: drizzleDb.schemas,
     }),
+    appName: env.PROJECT_NAME!,
     baseURL: env.PROJECT_URL,
     secret: env.PROJECT_SECRET,
     emailAndPassword: {
@@ -130,6 +131,15 @@ export const auth = betterAuth({
                 type: "number",
                 nullable: true,
                 required: false,
+            },
+            theme: {
+                type: "string",
+            },
+            lastConnectedAt: {
+                type: "date",
+            },
+            lastChangedPasswordAt: {
+                type: "date",
             },
         },
     },

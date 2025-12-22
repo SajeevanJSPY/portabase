@@ -2,13 +2,17 @@
 
 import * as React from "react"
 import {Moon, Sun} from "lucide-react"
-import {useTheme} from "next-themes"
-
 import {Button} from "@/components/ui/button"
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
+import {authClient} from "@/lib/auth/auth-client";
+import {toast} from "sonner";
 
 export function ModeToggle() {
-    const {setTheme} = useTheme()
+
+    const setTheme = async (theme: "light" | "dark" | "system") => {
+        toast.success("Your theme preference has been updated.");
+        await authClient.updateUser({theme: theme});
+    };
 
     return (
         <DropdownMenu>
@@ -33,3 +37,5 @@ export function ModeToggle() {
         </DropdownMenu>
     )
 }
+
+

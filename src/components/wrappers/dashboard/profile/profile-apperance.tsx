@@ -40,7 +40,7 @@ function ThemeSelector() {
                         )}
                         onClick={async () => {
                             // setTheme(item.value)
-                            // await authClient.updateUser({theme: item.value});
+                            await authClient.updateUser({theme: item.value});
                         }}
                     >
                         <div

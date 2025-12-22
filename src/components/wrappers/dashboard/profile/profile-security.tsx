@@ -74,11 +74,9 @@ export function ProfileSecurity({user, sessions, credentialAccount, currentSessi
                         <div className="space-y-1">
                             <div className="font-medium">Password</div>
                             <div className="text-sm text-muted-foreground">
-                                {/*{user.lastChangedPasswordAt*/}
-                                {/*    ? t("sections.authentication.password.description.last_changed", {*/}
-                                {/*          date: timeAgo(new Date(user.lastChangedPasswordAt), locale),*/}
-                                {/*      })*/}
-                                {/*    : "Never changed"}*/}
+                                {user.lastChangedPasswordAt
+                                    ?  `Last changed ${timeAgo(new Date(user.lastChangedPasswordAt))}`
+                                    : "Never changed"}
                             </div>
                         </div>
                         {credentialAccount ? (
@@ -116,8 +114,11 @@ export function ProfileSecurity({user, sessions, credentialAccount, currentSessi
                                                                 onOpenChange={setIsDisable2FADialogOpen}/>
                             </div>
                         ) : (
-                            <Setup2FAProfileProviderModal open={isSetup2FADialogOpen}
-                                                          onOpenChange={setIsSetup2FADialogOpen}/>
+                            <Setup2FAProfileProviderModal
+                                disabled={!credentialAccount}
+                                open={isSetup2FADialogOpen}
+                                onOpenChange={setIsSetup2FADialogOpen}
+                            />
                         )}
                     </div>
                 </div>

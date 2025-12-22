@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import React, {useState} from "react";
 import {Button} from "@/components/ui/button";
 import {
     Dialog,
@@ -24,6 +24,7 @@ import z from "zod";
 import {zPassword} from "@/lib/zod";
 import {BackupCodesList} from "../components/backup-codes-list";
 import {PasswordInput} from "@/components/ui/password-input";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 const PasswordSchema = z.object({
     password: zPassword(),
@@ -34,9 +35,10 @@ type Password = z.infer<typeof PasswordSchema>;
 type Setup2FAModalProps = {
     onOpenChange: (open: boolean) => void;
     open: boolean;
+    disabled: boolean;
 };
 
-export function Setup2FAProfileProviderModal({onOpenChange, open}: Setup2FAModalProps) {
+export function Setup2FAProfileProviderModal({onOpenChange, open, disabled}: Setup2FAModalProps) {
 
     const router = useRouter();
     const [step, setStep] = useState<"PASSWORD" | "QR" | "BACKUP">("PASSWORD");
@@ -113,10 +115,9 @@ export function Setup2FAProfileProviderModal({onOpenChange, open}: Setup2FAModal
     };
 
 
-
     return (
         <Dialog open={open} onOpenChange={(v) => (!v ? handleClose() : onOpenChange(v))}>
-            <DialogTrigger asChild>
+            <DialogTrigger asChild disabled={disabled}>
                 <Button variant="outline" size="sm">
                     <ShieldCheck className="w-4 h-4 mr-2"/>
                     Enable Two-Factor
@@ -177,7 +178,8 @@ export function Setup2FAProfileProviderModal({onOpenChange, open}: Setup2FAModal
                             </div>
 
                             <div className="w-full space-y-2">
-                                <p className="text-xs text-muted-foreground text-center">If you are unable to scan the QR code, you can manually enter the secret key into your authentication app :</p>
+                                <p className="text-xs text-muted-foreground text-center">If you are unable to scan the
+                                    QR code, you can manually enter the secret key into your authentication app :</p>
                                 <div className="flex items-center gap-2">
                                     <code
                                         className="flex-1 bg-muted p-2 rounded text-xs font-mono break-all text-center">{secret}</code>
@@ -237,7 +239,8 @@ export function Setup2FAProfileProviderModal({onOpenChange, open}: Setup2FAModal
                                className="border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-900">
                             <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400"/>
                             <AlertDescription
-                                className="text-green-700 dark:text-green-400">Two Factor Authentication is now enabled on your account.</AlertDescription>
+                                className="text-green-700 dark:text-green-400">Two Factor Authentication is now enabled
+                                on your account.</AlertDescription>
                         </Alert>
 
                         <BackupCodesList codes={backupCodes}/>

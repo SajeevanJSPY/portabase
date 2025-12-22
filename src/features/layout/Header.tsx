@@ -1,7 +1,7 @@
 import {notFound} from "next/navigation";
 
 import {SidebarTrigger} from "@/components/ui/sidebar";
-import {ModeToggle} from "@/features/theme/ModeToggle";
+import {ModeToggle} from "@/features/theme/mode-toggle";
 import {currentUser} from "@/lib/auth/current-user";
 import {BreadCrumbsWrapper} from "@/components/wrappers/common/bread-crumbs/bread-crumbs";
 import GitHubStarsButtonCustom from "@/components/wrappers/common/github/github-button";

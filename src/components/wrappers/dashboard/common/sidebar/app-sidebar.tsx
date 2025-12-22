@@ -15,7 +15,7 @@ import {LoggedInButton} from "@/components/wrappers/dashboard/common/logged-in/l
 export function AppSidebar() {
     const projectName = env.PROJECT_NAME;
     return (
-        <Sidebar collapsible="icon">
+        <Sidebar collapsible="icon" >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
