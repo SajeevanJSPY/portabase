@@ -60,6 +60,7 @@ export function ComboBox<T = string>(props: ComboBoxProps<T>) {
                     align="start"
                     sideOffset={4}
                     style={{ width: 'var(--radix-popover-trigger-width)' }}
+
                 >
                     <Command>
                         {searchField && <CommandInput placeholder="Search choice..." className="h-9"/>}

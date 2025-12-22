@@ -13,9 +13,12 @@ export function OrganizationCombobox() {
     const {data: activeOrganization, refetch: refetchActiveOrga} = authClient.useActiveOrganization();
     const [openModal, setOpenModal] = useState(false);
 
-    if (!organizations) return null;
+    // if (!organizations) return null;
 
-    const values = organizations.map(org => ({ value: org.slug, label: org.name }));
+    // const values = organizations.map(org => ({ value: org.slug, label: org.name }));
+    const values = organizations?.map(org => ({ value: org.slug, label: org.name })) ?? [];
+
+
 
     const onValueChange = async (slug: string) => {
         await authClient.organization.setActive({ organizationSlug: slug });

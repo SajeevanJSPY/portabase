@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 export const AuthLogoSection = () => {
     const {resolvedTheme} = useTheme();
     const [mounted, setMounted] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setMounted(true);
@@ -18,6 +19,14 @@ export const AuthLogoSection = () => {
             ? "/images/logo-white.png"
             : "/images/logo-black.png";
 
+    const handleLoad = () => setLoaded(true);
+
+    const style = {
+        transition: "opacity 0.3s ease-in-out",
+        opacity: loaded ? 1 : 0,
+    };
+
+
     return (
         <div className="sm:mx-auto sm:w-full sm:max-w-md relative flex items-center justify-center h-[160px]">
             {mounted && (
@@ -27,9 +36,12 @@ export const AuthLogoSection = () => {
                     fill
                     priority
                     className="object-contain p-10"
+                    onLoad={handleLoad}
+                    style={style}
+
                 />
             )}
-            <span className="absolute bottom-12 right-2 text-sm text-muted-foreground">
+            <span className="absolute bottom-12 right-2 text-sm text-muted-foreground" style={style}>
                 v{env.NEXT_PUBLIC_PROJECT_VERSION}
             </span>
         </div>
