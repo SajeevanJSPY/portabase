@@ -30,7 +30,7 @@ export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                 },
                 {
                     onSuccess: () => {
-                        toast.success("Password reset successfully.");
+                        toast.success("If an account with this email address exists, you will receive an email with instructions to reset your password.");
                     },
                     onError: (error) => {
                         toast.error(error.error.message);

@@ -11,10 +11,12 @@ import {count, eq} from "drizzle-orm";
 import {MemberWithUser, OrganizationWithMembersAndUsers} from "@/db/schema/03_organization";
 import {sendEmail} from "@/lib/email/email-helper";
 import {render} from "@react-email/render";
-import EmailResetPassword from "@/components/emails/email-reset-password";
 import {SUPPORTED_PROVIDERS} from "../../../portabase.config";
 import {withUpdatedAt} from "@/db/utils";
-import EmailVerification from "@/components/emails/email-verification";
+import EmailVerification from "@/components/emails/auth/email-verification";
+import EmailForgotPassword from "@/components/emails/auth/email-forgot-password";
+import {getDeviceDetails} from "@/utils/detection";
+import EmailNewLogin from "@/components/emails/auth/email-new-login";
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -27,7 +29,7 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: false,
-        sendResetPassword: async ({user, url, token}, request) => {
+        sendResetPassword: async ({user, token}, request) => {
 
             const [updatedUser] = await db.update(drizzleDb.schemas.user).set(withUpdatedAt({
                 emailVerified: true,
@@ -36,7 +38,13 @@ export const auth = betterAuth({
             await sendEmail({
                 to: user.email,
                 subject: "Reset your password",
-                html: await render(EmailResetPassword({url: url})),
+                html: await render(
+                    EmailForgotPassword({
+                        firstname: user.name!,
+                        token,
+                    }),
+                    {}
+                ),
             });
 
         },
@@ -71,8 +79,6 @@ export const auth = betterAuth({
             });
         },
     },
-
-
     socialProviders: SUPPORTED_PROVIDERS.reduce((acc: any, provider: any) => {
         if (provider.id === "credential") return acc;
         if (provider.id === "google") {
@@ -88,7 +94,6 @@ export const auth = betterAuth({
             enabled: true,
         },
     },
-
 
     plugins: [
         openAPI(),
@@ -176,7 +181,6 @@ export const auth = betterAuth({
                     } else {
                         console.warn("Default organization not found. Cannot assign member.");
                     }
-
                 },
             },
         },
@@ -185,37 +189,41 @@ export const auth = betterAuth({
                 before: async (session, context) => {
                     const userId = session.userId;
 
-
                     let memberships = await db.query.member.findMany({
                         where: eq(drizzleDb.schemas.member.userId, userId),
                     });
-
-                    // if (!memberships.length) {
-                    //     const defaultOrgSlug = "default";
-                    //     const defaultOrg = await db.query.organization.findFirst({
-                    //         where: eq(drizzleDb.schemas.organization.slug, defaultOrgSlug),
-                    //     });
-                    //
-                    //     if (!defaultOrg) {
-                    //         throw new Error("No organization found. Cannot assign member.");
-                    //     }
-                    //
-                    //     await db.insert(drizzleDb.schemas.member).values({
-                    //         userId,
-                    //         organizationId: defaultOrg.id,
-                    //         role: "member",
-                    //     });
-                    //
-                    //     memberships = await db.query.member.findMany({
-                    //         where: eq(drizzleDb.schemas.member.userId, userId),
-                    //     });
-                    // }
 
                     return {
                         data: {
                             activeOrganizationId: memberships[0].organizationId,
                         },
                     };
+                },
+                after: async (session) => {
+                    const user = await db.query.user.findFirst({
+                        where: eq(drizzleDb.schemas.user.id, session.userId),
+                    });
+
+                    if (user && user.role != "pending") {
+                        const deviceInfo = getDeviceDetails(session.userAgent);
+                        await sendEmail({
+                            to: user.email,
+                            subject: "New login to your account",
+                            html: await render(
+                                EmailNewLogin({
+                                    firstname: user.name!,
+                                    os: deviceInfo.os,
+                                    browser: deviceInfo.browser,
+                                    ipAddress: session.ipAddress!,
+                                }),
+                                {}
+                            ),
+                        });
+
+                        (await auth.$context).internalAdapter.updateUser(user.id, {
+                            lastConnectedAt: new Date(),
+                        });
+                    }
                 },
             },
         },
