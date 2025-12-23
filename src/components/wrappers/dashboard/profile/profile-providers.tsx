@@ -73,9 +73,8 @@ export function ProfileProviders({accounts}: ProfileProviderProps) {
                 {SUPPORTED_PROVIDERS.map((provider) => {
                     const linkedAccount = accounts.find((acc) => acc.providerId === provider.id);
                     const isConnected = !!linkedAccount;
-                    console.log(totalConnected);
-                    const canUnlink = totalConnected > 1 || (totalConnected === 1 && !provider.isManual);
-                    console.log(canUnlink);
+                    // const canUnlink = totalConnected > 1 || (totalConnected === 1 && !provider.isManual);
+                    const canUnlink = totalConnected > 1 ;
                     // const isLoading = isUnlinking || isLinking;
                     const isLoading = loadingProvider === provider.id;
 
