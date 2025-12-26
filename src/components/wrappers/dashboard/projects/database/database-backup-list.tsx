@@ -38,8 +38,6 @@ export const DatabaseBackupList = (props: DatabaseBackupListProps) => {
         if (!props.backups) return [];
 
         return props.backups.filter(backup => {
-
-            // --- Status Filter ---
             if (selectedFilters.length > 0) {
                 const selectedValues = selectedFilters.map(f => f.value);
                 const status = backup.deletedAt != null ? "deleted" : "available";

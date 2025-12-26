@@ -31,6 +31,7 @@ import {cn} from "@/lib/utils";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {MemberWithUser} from "@/db/schema/03_organization";
 import {formatLocalizedDate} from "@/utils/date-formatting";
+import {isImportedFilename} from "@/utils/text";
 
 
 export function backupColumns(
@@ -63,6 +64,14 @@ export function backupColumns(
         {
             accessorKey: "id",
             header: "Reference",
+            cell: ({row}) => {
+                const fileName = row.original.file
+                console.log(row.original)
+                const reference = row.original.id
+                const isImported = isImportedFilename(`${fileName}`)
+                console.log(isImported)
+                return isImported ? `${reference} (imported)` : `${reference}`
+            },
         },
         {
             accessorKey: "createdAt",

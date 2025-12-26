@@ -14,6 +14,7 @@ import {RetentionPolicySheet} from "@/components/wrappers/dashboard/database/ret
 import {capitalizeFirstLetter} from "@/utils/text";
 import {AlertPolicyModal} from "@/components/wrappers/dashboard/database/alert-policy/alert-policy-modal";
 import {getOrganizationChannels} from "@/db/services/notification-channel";
+import {ImportModal} from "@/components/wrappers/dashboard/database/import/import-modal";
 
 export default async function RoutePage(props: PageParams<{
     projectId: string;
@@ -107,6 +108,7 @@ export default async function RoutePage(props: PageParams<{
                                 <CronButton database={dbItem}/>
                                 <AlertPolicyModal database={dbItem} notificationChannels={activeOrganizationChannels}
                                                   organizationId={organization.id}/>
+                                <ImportModal database={dbItem}/>
                             </div>
                             <div className="flex items-center gap-2">
                                 <BackupButton disable={isAlreadyBackup} databaseId={databaseId}/>
