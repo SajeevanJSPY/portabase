@@ -28,3 +28,7 @@ export const agentRelations = relations(agent, ({many}) => ({
 export type AgentWith = Agent & {
     databases?: Database[] | null;
 };
+
+export type AgentWithDatabases = Agent & {
+    databases: Database[] | [];
+};
