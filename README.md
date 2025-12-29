@@ -21,7 +21,7 @@
   <p>
     <strong>
         <a href="https://portabase.io">Documentation</a> •
-        <a href="https://www.youtube.com/watch?v=D9uFrGxLc4s">Demo</a> •
+        <a href="https://www.youtube.com/watch?v=hvLbX5LN1UE">Demo</a> •
         <a href="#installation">Installation</a> •
         <a href="#contributing">Contributing</a> •
         <a href="https://github.com/Soluce-Technologies/portabase/issues/new?labels=bug&template=bug-report---.md">Report Bug</a> •
@@ -51,7 +51,7 @@
 **Portabase** is a server dashboard tool designed to simplify the backup and restoration of your database instances. It
 integrates seamlessly with Portabase agents for managing operations securely and efficiently.
 
-GitHub Repository: [Portabase](https://github.com/Soluce-Technologies/portabase)
+GitHub Repository: [Portabase](https://github.com/Portabase/portabase)
 
 ### 🔧 Built With
 
@@ -60,7 +60,6 @@ GitHub Repository: [Portabase](https://github.com/Soluce-Technologies/portabase)
 - [![ShadcnUI][ShadcnUI]][ShadcnUI-url]
 - [![BetterAuth][BetterAuth]][BetterAuth-url]
 - [![Docker][Docker]][Docker-url]
-
 
 ---
 
@@ -128,7 +127,7 @@ Traefik : [Check this link](https://portabase.io/docs/dashboard/advanced/reverse
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Soluce-Technologies/portabase
+    git clone https://github.com/Portabase/portabase
     cd portabase
     ```
 2. Start the development environment:
@@ -150,7 +149,7 @@ It currently supports:
 
 1. **Access the dashboard** – Open `http://localhost:8887` in your browser.
 2. **Sign up** – Register the first user, who will automatically have the **Admin** role in the default workspace.
-3. **Add your first agent** – Follow [this guide](https://github.com/Soluce-Technologies/agent-portabase) for setup
+3. **Add your first agent** – Follow [this guide](https://github.com/Portabase/agent-portabase) for setup
    instructions.
 4. **Create organizations and projects** – Link your databases to projects to enable backups and restores.
 5. **Configure backup policies** – Define schedules (hourly, daily, weekly, or monthly) and retention rules.
@@ -177,7 +176,7 @@ It currently supports:
     - [x] MySQL
     - [x] MariaDB
 
-Check out [open issues](https://github.com/Soluce-Technologies/portabase/issues) for more.
+Check out [open issues](https://github.com/Portabase/portabase/issues) for more.
 
 ---
 
@@ -204,7 +203,7 @@ Give the project a ⭐ if you like it!
 
 ### Top Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=Soluce-Technologies/portabase)](https://github.com/Soluce-Technologies/portabase/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=Portabase/portabase)](https://github.com/Portabase/portabase/graphs/contributors)
 
 ---
 
@@ -279,7 +278,7 @@ Distributed under the Apache License. See `LICENSE.txt` for more details.
 
 - Killian Larcher - killian.larcher@soluce-technologies.com
 - Charles Gauthereau - charles.gauthereau@soluce-technologies.com
-- Project Link: [Portabase GitHub](https://github.com/Soluce-Technologies/portabase)
+- Project Link: [Portabase GitHub](https://github.com/Portabase/portabase)
 
 ---
 
@@ -304,5 +303,6 @@ Thanks to all contributors and the open-source community!
 [Drizzle-url]: https://orm.drizzle.team/
 
 [ShadcnUI-url]: https://ui.shadcn.com/
+
 [Docker-url]: https://www.docker.com/
 
