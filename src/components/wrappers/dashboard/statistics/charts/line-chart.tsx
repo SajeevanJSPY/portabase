@@ -42,65 +42,58 @@ export const LineChartCustom = <T extends { date: string }>({
 
 
     return (
+        <Card className="w-full">
+            <CardHeader className="flex items-center gap-4 space-y-0 border-b py-0 sm:flex-row">
+                <CardTitle className="text-sm md:text-lg">{title}</CardTitle>
+                <Select value={timeRange} onValueChange={setTimeRange}>
+                    <SelectTrigger
+                        className=" rounded-lg sm:ml-auto sm:flex"
+                        aria-label="Select a value"
+                    >
+                        <SelectValue placeholder="Last 3 months"/>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="7d" className="rounded-lg">
+                            Last 7 days
+                        </SelectItem>
+                        <SelectItem value="30d" className="rounded-lg">
+                            Last 30 days
+                        </SelectItem>
+                        <SelectItem value="90d" className="rounded-lg">
+                            Last 3 months
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
 
-        <>
-            {data.length > 0 ? (
-                <Card className="w-full">
-                    <CardHeader className="flex items-center gap-4 space-y-0 border-b py-0 sm:flex-row">
-                        <CardTitle className="text-sm md:text-lg">{title}</CardTitle>
-                        <Select value={timeRange} onValueChange={setTimeRange}>
-                            <SelectTrigger
-                                className=" rounded-lg sm:ml-auto sm:flex"
-                                aria-label="Select a value"
-                            >
-                                <SelectValue placeholder="Last 3 months"/>
-                            </SelectTrigger>
-                            <SelectContent className="rounded-xl">
-                                <SelectItem value="7d" className="rounded-lg">
-                                    Last 7 days
-                                </SelectItem>
-                                <SelectItem value="30d" className="rounded-lg">
-                                    Last 30 days
-                                </SelectItem>
-                                <SelectItem value="90d" className="rounded-lg">
-                                    Last 3 months
-                                </SelectItem>
-                            </SelectContent>
-                        </Select>
+            </CardHeader>
+            <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 md:pt-0 md:px-6 h-full w-full">
 
-                    </CardHeader>
-                    <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 md:pt-0 md:px-6 ">
-                        <ChartContainer config={config}>
-                            <LineChart
-                                accessibilityLayer
-                                data={filteredData}
-                                margin={margin ? margin : {
-                                    left: -35,
-                                    right: 12,
-                                }}
-                            >
-                                {children}
+                {data.length > 0 ? (
+                    <ChartContainer config={config}>
+                        <LineChart
+                            accessibilityLayer
+                            data={filteredData}
+                            margin={margin ? margin : {
+                                left: -35,
+                                right: 12,
+                            }}
+                        >
+                            {children}
 
-                                <Line
-                                    dataKey={dataKey}
-                                    type="linear"
-                                    strokeWidth={2}
-                                    stroke="#fc6504"
-                                    dot={false}
-                                />
-                            </LineChart>
-                        </ChartContainer>
-                    </CardContent>
-                </Card>
-
-            ) : (
-                <PlaceholderChart text="No backup data available"/>
-            )}
-
-
-        </>
-
-
+                            <Line
+                                dataKey={dataKey}
+                                type="linear"
+                                strokeWidth={2}
+                                stroke="#fc6504"
+                                dot={false}
+                            />
+                        </LineChart>
+                    </ChartContainer>
+                ) : (
+                    <PlaceholderChart text="No data available"/>
+                )}
+            </CardContent>
+        </Card>
     )
 }
 

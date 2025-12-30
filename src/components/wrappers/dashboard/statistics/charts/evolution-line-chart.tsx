@@ -28,9 +28,9 @@ export type EvolutionLineChartProps = {
 export function EvolutionLineChart(props: EvolutionLineChartProps) {
     const {data} = props;
 
-    const fakeData = generateFakeEvolutionData(14, 2, 10)
+    // const fakeData = generateFakeEvolutionData(14, 2, 10)
 
-    const dailyData = fakeData
+    const dailyData = data
         .reduce((acc, backup) => {
             const date = backup.createdAt.toISOString().split("T")[0];
 
