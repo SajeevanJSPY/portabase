@@ -24,18 +24,16 @@ export default async function SignInPage() {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <LoginForm />
+                    <LoginForm/>
 
-                    {SUPPORTED_PROVIDERS.filter((p) => !p.isManual).length > 0 && (
+                    {SUPPORTED_PROVIDERS.filter((p) => !p.isManual && p.isActive).length > 0 && (
                         <>
-
                             <div className="relative my-4 flex items-center justify-center overflow-hidden">
                                 <Separator/>
                                 <div className="px-2 text-center  text-sm">OR</div>
                                 <Separator/>
                             </div>
-
-                            <SocialAuthButtons />
+                            <SocialAuthButtons providers={SUPPORTED_PROVIDERS}/>
                         </>
                     )}
 
@@ -48,8 +46,6 @@ export default async function SignInPage() {
                 </CardContent>
             </CardAuth>
         </TooltipProvider>
-
-
 
 
     )

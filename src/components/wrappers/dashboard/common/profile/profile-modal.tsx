@@ -10,6 +10,7 @@ import {ProfileAccount} from "@/components/wrappers/dashboard/profile/profile-ac
 import {ProfileAppearance} from "@/components/wrappers/dashboard/profile/profile-apperance";
 import {ProfileSecurity} from "@/components/wrappers/dashboard/profile/profile-security";
 import {ProfileGeneral} from "@/components/wrappers/dashboard/profile/profile-general";
+import {AuthProviderConfig} from "../../../../../../portabase.config";
 
 type ProfileModalProps = {
     open: boolean;
@@ -18,9 +19,11 @@ type ProfileModalProps = {
     currentSession: Session;
     accounts: Account[];
     onOpenChange: (open: boolean) => void;
+    providers: AuthProviderConfig[]
+
 };
 
-export const ProfileModal = ({ user, sessions, currentSession, accounts, open, onOpenChange }: ProfileModalProps) => {
+export const ProfileModal = ({ user, sessions, currentSession, accounts, open, onOpenChange, providers }: ProfileModalProps) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[95vw] h-[90vh] max-w-md lg:max-w-[1000px] lg:h-[800px] p-0 overflow-hidden flex flex-col outline-none gap-0 rounded-xl bg-background">
@@ -46,7 +49,7 @@ export const ProfileModal = ({ user, sessions, currentSession, accounts, open, o
                         </TabsContent>
 
                         <TabsContent value="providers" className="mt-0 h-full p-6 lg:p-10 outline-none focus-visible:ring-0">
-                            <ProfileProviders accounts={accounts} />
+                            <ProfileProviders accounts={accounts} providers={providers} />
                         </TabsContent>
 
                         <TabsContent value="account" className="mt-0 h-full p-6 lg:p-10 outline-none focus-visible:ring-0">

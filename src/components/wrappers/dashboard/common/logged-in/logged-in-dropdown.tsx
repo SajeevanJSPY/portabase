@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { signOut } from "@/lib/auth/auth-client";
 import {ProfileModal} from "@/components/wrappers/dashboard/common/profile/profile-modal";
 import {Account, Session, User} from "@/db/schema/02_user";
+import {AuthProviderConfig} from "../../../../../../portabase.config";
 
 export type LoggedInDropdownProps = PropsWithChildren<{
     user: User;
@@ -14,9 +15,11 @@ export type LoggedInDropdownProps = PropsWithChildren<{
     currentSession: Session;
     accounts: Account[];
     children: ReactNode;
+    providers: AuthProviderConfig[]
+
 }>;
 
-export const LoggedInDropdown = ({ user, sessions, currentSession, accounts, children }: LoggedInDropdownProps) => {
+export const LoggedInDropdown = ({ user, sessions, currentSession, accounts, children, providers }: LoggedInDropdownProps) => {
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,6 +32,7 @@ export const LoggedInDropdown = ({ user, sessions, currentSession, accounts, chi
                 accounts={accounts}
                 open={isModalOpen}
                 onOpenChange={setIsModalOpen}
+                providers={providers}
             />
 
             <DropdownMenu>

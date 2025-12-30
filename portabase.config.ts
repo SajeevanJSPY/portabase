@@ -1,9 +1,9 @@
-import {Chrome, KeyRound, LucideIcon} from "lucide-react";
 
 
 export interface AuthProviderConfig {
     id: "google" | "github" | "credential";
-    icon: LucideIcon;
+    isActive: boolean;
+    icon: string;
     isManual?: boolean;
     credentials?: {
         clientId: string;
@@ -80,7 +80,8 @@ export const PORTABASE_DEFAULT_SETTINGS = {
 export const SUPPORTED_PROVIDERS: AuthProviderConfig[] = [
     {
         id: "google",
-        icon: Chrome,
+        icon: "hugeicons:chrome",
+        isActive: Boolean(process.env.AUTH_GOOGLE_METHOD),
         // isManual: true,
         credentials: {
             clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -100,7 +101,8 @@ export const SUPPORTED_PROVIDERS: AuthProviderConfig[] = [
     },*/
     {
         id: "credential",
-        icon: KeyRound,
+        isActive: true,
+        icon: "proicons:key",
         isManual: true,
         credentials: {
             clientId: "",

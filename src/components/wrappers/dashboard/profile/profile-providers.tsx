@@ -12,13 +12,16 @@ import {useRouter} from "next/navigation";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {Alert, AlertDescription} from "@/components/ui/alert";
 import {SetPasswordProfileProviderModal} from "./modal/set-password-modal";
-import {SUPPORTED_PROVIDERS} from "../../../../../portabase.config";
+import {AuthProviderConfig} from "../../../../../portabase.config";
+import {Icon} from "@iconify/react";
 
 interface ProfileProviderProps {
     accounts: Account[];
+    providers: AuthProviderConfig[]
+
 }
 
-export function ProfileProviders({accounts}: ProfileProviderProps) {
+export function ProfileProviders({accounts, providers}: ProfileProviderProps) {
     const router = useRouter();
     const totalConnected = accounts.length;
     const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
@@ -70,7 +73,7 @@ export function ProfileProviders({accounts}: ProfileProviderProps) {
             </div>
 
             <div className="grid gap-4">
-                {SUPPORTED_PROVIDERS.map((provider) => {
+                {providers.map((provider) => {
                     const linkedAccount = accounts.find((acc) => acc.providerId === provider.id);
                     const isConnected = !!linkedAccount;
                     // const canUnlink = totalConnected > 1 || (totalConnected === 1 && !provider.isManual);
@@ -83,7 +86,7 @@ export function ProfileProviders({accounts}: ProfileProviderProps) {
                              className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/30 transition-colors">
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                                    <provider.icon className="w-5 h-5"/>
+                                    <Icon icon={provider.icon} className="w-5 h-5"/>
                                 </div>
                                 <div className="space-y-0.5">
                                     <div className="font-medium flex items-center gap-2">

@@ -5,9 +5,12 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth/auth-client";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import {SUPPORTED_PROVIDERS} from "../../../../portabase.config";
+import {AuthProviderConfig} from "../../../../portabase.config";
+import {Icon} from "@iconify/react";
 
-export function SocialAuthButtons() {
+export function SocialAuthButtons({ providers }: { providers: AuthProviderConfig[] }) {
+    const socialProviders = providers.filter(p => p.isActive && !p.isManual);
+
     const [isLoading, setIsLoading] = useState<string | null>(null);
 
     const handleSocialSignIn = async (providerId: string) => {
@@ -30,16 +33,15 @@ export function SocialAuthButtons() {
         }
     };
 
-    const socialProviders = SUPPORTED_PROVIDERS.filter((p) => !p.isManual);
-
     if (socialProviders.length === 0) return null;
-
 
     return (
         <div className="flex flex-col gap-2 w-full">
             {socialProviders.map((provider) => (
                 <Button key={provider.id} variant="outline" className="w-full gap-2" onClick={() => handleSocialSignIn(provider.id)} disabled={!!isLoading}>
-                    {isLoading === provider.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <provider.icon className="h-4 w-4" />}
+                    {isLoading === provider.id ? <Loader2 className="h-4 w-4 animate-spin" /> :
+                        <Icon icon={provider.icon} className="h-4 w-4"/>
+                     }
                     <span>{PROVIDERS_TEXT[provider.id].title}</span>
                 </Button>
             ))}

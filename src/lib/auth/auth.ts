@@ -11,7 +11,7 @@ import {count, eq} from "drizzle-orm";
 import {MemberWithUser, OrganizationWithMembersAndUsers} from "@/db/schema/03_organization";
 import {sendEmail} from "@/lib/email/email-helper";
 import {render} from "@react-email/render";
-import {SUPPORTED_PROVIDERS} from "../../../portabase.config";
+import {AuthProviderConfig, SUPPORTED_PROVIDERS} from "../../../portabase.config";
 import {withUpdatedAt} from "@/db/utils";
 import EmailVerification from "@/components/emails/auth/email-verification";
 import EmailForgotPassword from "@/components/emails/auth/email-forgot-password";
@@ -80,6 +80,7 @@ export const auth = betterAuth({
         },
     },
     socialProviders: SUPPORTED_PROVIDERS.reduce((acc: any, provider: any) => {
+        if (!provider.isActive) return acc;
         if (provider.id === "credential") return acc;
         if (provider.id === "google") {
             acc.google = {
