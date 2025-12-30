@@ -10,11 +10,19 @@ export const EmailLayout = ({ children, preview }: PropsWithChildren<{ preview?:
         <Tailwind>
             <Html>
                 <Head />
-                {preview ? <Preview>{preview}</Preview> : <Preview>Please check your mails</Preview>}
-                <Body className="bg-gray-100 py-4" style={{ fontFamily: "Arial, sans-serif" }}>
-                    <Container className="bg-white border border-gray-200 p-12">
-                        <Img src={`${baseUrl}/images/logo-dark.png`} width="200" height="auto" alt="Logo" />
-                        <Section>{children}</Section>
+                <Body className="mx-auto my-auto bg-white px-2 font-sans">
+                    {preview ? <Preview>{preview}</Preview> : <Preview>Please check your mails</Preview>}
+                    <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-[#eaeaea] border-solid p-[20px]">
+                        <Section className="mt-[32px]">
+                            <Img
+                                src={`${baseUrl}/images/logo.png`}
+                                width="50"
+                                height="auto"
+                                alt="Logo"
+                                className="mx-auto my-0"
+                            />
+                        </Section>
+                        {children}
                     </Container>
                 </Body>
             </Html>
