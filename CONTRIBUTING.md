@@ -26,7 +26,7 @@ Please take a moment to review this guide. It will help you understand how to co
 
 2. **Clone the repository**
    ```bash
-   git clone https://github.com/Soluce-Technologies/portabase
+   git clone https://github.com/Portabase/portabase
    ```
 
 3. **Set up the development environment**  
