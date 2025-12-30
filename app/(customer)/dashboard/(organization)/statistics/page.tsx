@@ -78,9 +78,6 @@ export default async function RoutePage(props: PageParams<{}>) {
         (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
-    const Placeholder = ({text}: { text: string }) => (
-        <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">{text}</div>
-    );
 
     return (
         <Page>
@@ -125,31 +122,12 @@ export default async function RoutePage(props: PageParams<{}>) {
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-4">
-                    <Card className="w-full">
-                        <CardHeader>
-                            <CardTitle>Evolution of the number of backups</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            {sortedBackupsEvolution.length > 0 ? (
-                                <EvolutionLineChart data={sortedBackupsEvolution}/>
-                            ) : (
-                                <Placeholder text="No backup data available"/>
-                            )}
-                        </CardContent>
-                    </Card>
+                    <EvolutionLineChart
+                        data={sortedBackupsEvolution}
+                    />
 
-                    <Card className="w-full">
-                        <CardHeader>
-                            <CardTitle>Success rate of backups</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            {backupsRate.length > 0 ? (
-                                <PercentageLineChart data={backupsRate}/>
-                            ) : (
-                                <Placeholder text="No backup rate data available"/>
-                            )}
-                        </CardContent>
-                    </Card>
+                    <PercentageLineChart
+                        data={backupsRate}/>
                 </div>
             </PageContent>
         </Page>

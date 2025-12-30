@@ -1,8 +1,10 @@
 "use client";
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { EStatusSchema } from "@/db/schema/types";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import {ChartConfig, ChartTooltip} from "@/components/ui/chart";
+import {EStatusSchema} from "@/db/schema/types";
+import {LineChartCustom} from "@/components/wrappers/dashboard/statistics/charts/line-chart";
+import {CartesianGrid, TooltipProps, XAxis, YAxis} from "recharts";
+import {formatDayOnly} from "@/utils/date-formatting";
 
 type Data = {
     createdAt: Date;
@@ -10,31 +12,26 @@ type Data = {
     _count: number;
 };
 
+type Payload = {
+    date: string
+    successRate: number
+}
+
 export type percentageLineChartProps = {
     data: Data[];
 };
 
 export function PercentageLineChart(props: percentageLineChartProps) {
-    const { data } = props;
+    const {data} = props;
 
-    const chartConfig = {
-        date: {
-            label: "Date",
-            color: "#2563eb",
-        },
-        successRate: {
-            label: "Success Rate",
-            color: "#60a5fa",
-        },
-    } satisfies ChartConfig;
 
     const dailyStats = data.reduce(
         (acc, backup) => {
-            const date = backup.createdAt.toISOString().split("T")[0]; // Format YYYY-MM-DD
+            const date = backup.createdAt.toISOString().split("T")[0];
             const status = backup.status;
 
             if (!acc[date]) {
-                acc[date] = { success: 0, failed: 0, total: 0 };
+                acc[date] = {success: 0, failed: 0, total: 0};
             }
 
             acc[date][status === "success" ? "success" : "failed"] += backup._count;
@@ -45,34 +42,81 @@ export function PercentageLineChart(props: percentageLineChartProps) {
         {} as Record<string, { success: number; failed: number; total: number }>
     );
 
-    // Format data for the chart
     const formattedData = Object.entries(dailyStats).map(([date, stats]) => ({
         date,
         successRate: (stats.success / stats.total) * 100,
     }));
 
+
+    const chartConfig = {
+        date: {
+            label: "Date",
+        },
+        successRate: {
+            label: "Success Rate",
+        },
+    } satisfies ChartConfig;
+
     return (
-        <ChartContainer config={chartConfig}>
-            <LineChart accessibilityLayer data={formattedData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis domain={[0, 100]} tickFormatter={(tick) => `${tick}%`} />
-                <ChartTooltip
-                    content={<ChartTooltipContent />}
-                    cursor={false}
-                    defaultIndex={1}
-                    formatter={(value, name) => (
-                        <div className="flex min-w-[130px] items-center text-xs text-muted-foreground">
-                            {chartConfig[name as keyof typeof chartConfig]?.label || name}
-                            <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                                {value}
-                                <span className="font-normal text-muted-foreground">%</span>
-                            </div>
-                        </div>
-                    )}
-                />
-                <Line type="step" dataKey="successRate" stroke="#8884d8" strokeWidth={2} />
-            </LineChart>
-        </ChartContainer>
+
+        <LineChartCustom<Payload>
+            title="Success rate of backups"
+            config={chartConfig}
+            data={formattedData}
+            dataKey="successRate"
+            margin={{
+                left: -15,
+                right: 12,
+            }}
+        >
+            {/*<CartesianGrid strokeDasharray="3 3" />*/}
+            <CartesianGrid vertical={false}/>
+            <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) =>
+                    formatDayOnly(new Date(value))
+                }
+            />
+            <YAxis
+                tickLine={false}
+                domain={[0, 100]}
+                tickFormatter={(tick) => `${tick}%`}
+            />
+            <ChartTooltip
+                defaultIndex={1}
+                cursor={{strokeDasharray: "3 3"}}
+                content={<PourcentTooltip/>}
+            />
+        </LineChartCustom>
     );
 }
+
+function PourcentTooltip({
+                             active,
+                             payload,
+                         }: TooltipProps<number, string>) {
+    if (!active || !payload || payload.length === 0) return null;
+
+    const data = payload[0].payload as Payload;
+
+    return (
+        <div className="rounded-lg border bg-background px-3 py-2 shadow-md">
+            <p className="text-sm font-medium">
+                {formatDayOnly(new Date(data.date))}
+            </p>
+
+            <div className="mt-1 flex items-center gap-2 text-sm">
+                <span className="h-2 w-2 rounded-full bg-[#fc6504]"/>
+                <span className="text-muted-foreground">Success Rate :</span>
+                <span className="ml-auto font-semibold">
+          {data.successRate} %
+        </span>
+            </div>
+        </div>
+    );
+}
+
+

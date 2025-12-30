@@ -38,3 +38,12 @@ export function formatDateLastContact(lastContact: string | number | Date | null
         : "Never connected.";
 }
 
+export function formatDayOnly(date: Date) {
+    return new Intl.DateTimeFormat(LOCALE, {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        timeZone: TIMEZONE,
+    }).format(date);
+}
+
