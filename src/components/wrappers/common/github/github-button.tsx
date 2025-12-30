@@ -9,7 +9,7 @@ export const GitHubStarsButtonCustom = () => {
     const [stars, setStars] = React.useState(0);
     const [isLoading, setIsLoading] = React.useState(true);
 
-    const username = "Soluce-Technologies"
+    const username = "Portabase"
     const repo = "portabase"
 
 
