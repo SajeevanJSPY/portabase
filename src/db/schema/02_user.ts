@@ -126,6 +126,10 @@ export const projectRelations = relations(project, ({one}) => ({
 export const userSchema = createSelectSchema(user);
 export type User = z.infer<typeof userSchema>;
 
+export const userThemeEnumSchema = createSelectSchema(userThemeEnum)
+export type UserThemeEnum = z.infer<typeof userThemeEnumSchema>;
+
+
 export const sessionSchema = createSelectSchema(session);
 export type Session = z.infer<typeof sessionSchema>;
 

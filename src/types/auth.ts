@@ -4,8 +4,8 @@ export type SignUpUser = {
     email: string
     password: string
     callbackURL?: string
+    role?: string
     theme: string
-    isDefaultPassword: boolean
 }
 
 
