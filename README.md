@@ -32,7 +32,6 @@
         <a href="https://portabase.io">Documentation</a> •
         <a href="https://www.youtube.com/watch?v=hvLbX5LN1UE">Demo</a> •
         <a href="#installation">Installation</a> •
-        <a href="#contributing">Contributing</a> •
         <a href="https://github.com/Portabase/portabase/issues/new?labels=bug&template=bug-report---.md">Report Bug</a> •
         <a href="https://github.com/Portabase/portabase/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
     </strong>
@@ -100,7 +99,7 @@ securely and efficiently.
 - Privacy by design: All data remains within your own infrastructure
 - Open source: Apache 2.0 licensed — fully auditable codebase
 
-### 🤖 Portabase Agent
+### 🤖 Portabase Agent ([details](https://github.com/Portabase/agent-portabase))
 
 - Headless architecture: Runs locally on your infrastructure to manage backups and database operations
 - Multi-target support: Single agent can connect to multiple databases across different servers
