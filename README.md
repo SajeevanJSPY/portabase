@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://portabase.io">
-    <img src="/public/images/logo.png" alt="Logo" width="80" height="80">
+    <img src="/.github/assets/logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Portabase</h3>
@@ -22,21 +22,18 @@ Portabase is a tool designed to simplify the backup and restoration of your data
 [![Open Source](https://img.shields.io/badge/open%20source-❤️-red)](https://github.com/Portabase/portabase)
 
 
-<div align="center">
-
 [![NextJS][NextJS]][NextJS-url]
 [![BetterAuth][BetterAuth]][BetterAuth-url]
 [![Drizzle][Drizzle]][Drizzle-url]
 [![ShadcnUI][ShadcnUI]][ShadcnUI-url]
 [![Docker][Docker]][Docker-url]
 
-</div>
-
   <p>
     <strong>
-        <a href="https://portabase.io">Documentation</a> •
+        <a href="https://portabase.io">Website</a> •
+        <a href="https://portabase.io/docs">Documentation</a> •
         <a href="https://www.youtube.com/watch?v=hvLbX5LN1UE">Demo</a> •
-        <a href="#installation">Installation</a> •
+        <a href="https://portabase.io/docs/dashboard/setup">Installation</a> •
         <a href="https://github.com/Portabase/portabase/issues/new?labels=bug&template=bug-report---.md">Report Bug</a> •
         <a href="https://github.com/Portabase/portabase/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
     </strong>
@@ -46,6 +43,18 @@ Portabase is a tool designed to simplify the backup and restoration of your data
 
 
 </div>
+
+## Installation
+
+You have 4 ways to install Portabase:
+
+- Automated CLI (recommended) - [details](https://portabase.io/docs/dashboard/setup#cli)
+- Docker Compose setup - [details](https://portabase.io/docs/dashboard/setup#docker)
+- Kubernetes with Helm (soon)
+- Development setup - [details](https://portabase.io/docs/dashboard/setup#development)
+
+**Ensure Docker is installed on your machine before getting started.**
+
 
 
 ## Contributors
