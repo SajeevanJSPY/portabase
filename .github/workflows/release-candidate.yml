@@ -5,6 +5,10 @@ on:
     tags:
       - '*-rc*'
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   docker_publish:
     uses: ./.github/workflows/docker.yml
