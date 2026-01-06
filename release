@@ -9,6 +9,20 @@ if [ -z "$1" ]; then
 fi
 
 VERSION=$1
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$CURRENT_BRANCH" = "main" ]; then
+  if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: On 'main' branch, only release tags (X.Y.Z) are allowed."
+    exit 1
+  fi
+else
+  if [[ ! "$VERSION" =~ -rc ]]; then
+    echo "Error: On branch '$CURRENT_BRANCH', only RC tags (containing -rc) are allowed."
+    exit 1
+  fi
+fi
+
 CLEAN_VERSION=${VERSION#v}
 CURRENT_DATE=$(date +%Y-%m-%d)
 
