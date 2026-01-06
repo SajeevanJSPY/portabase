@@ -9,8 +9,17 @@ if [ -z "$1" ]; then
 fi
 
 VERSION=$1
+CLEAN_VERSION=${VERSION#v}
+CURRENT_DATE=$(date +%Y-%m-%d)
 
 echo "Preparing release $VERSION..."
+
+echo "Updating package.json to version $CLEAN_VERSION..."
+sed -i "s/\"version\": \".*\"/\"version\": \"$CLEAN_VERSION\"/" package.json
+
+echo "Updating CITATION.cff..."
+sed -i "s/^version: .*/version: $CLEAN_VERSION/" CITATION.cff
+sed -i "s/^date-released: .*/date-released: \"$CURRENT_DATE\"/" CITATION.cff
 
 git add .
 
