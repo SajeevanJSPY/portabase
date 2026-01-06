@@ -22,7 +22,7 @@ jobs:
       make_latest: false
       discord_title: "||@release-dashboard|| New release candidate published"
       discord_color: 16776960
-      discord_footer: "Portabase RC"
+      discord_footer: "Portabase"
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
