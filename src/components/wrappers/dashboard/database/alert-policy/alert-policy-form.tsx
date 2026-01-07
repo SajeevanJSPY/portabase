@@ -296,9 +296,7 @@ export const AlertPolicyForm = ({database, notificationChannels, organizationId,
                                             </div>
                                             
                                             <div className="flex flex-col gap-1.5">
-                                                <Label className="text-[10px] font-bold text-transparent uppercase tracking-widest select-none">
-                                                    Actions
-                                                </Label>
+                                         
                                                 <Button
                                                     type="button"
                                                     variant="outline"

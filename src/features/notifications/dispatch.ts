@@ -84,7 +84,7 @@ export async function dispatchNotification(
                 success: false,
                 channelId: channelId || "",
                 provider: null,
-                error: "Channel not active¬",
+                error: "Channel not active",
             };
         }
 
