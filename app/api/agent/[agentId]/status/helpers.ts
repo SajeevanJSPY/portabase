@@ -6,7 +6,7 @@ import {Agent} from "@/db/schema/08_agent";
 import {Database} from "@/db/schema/07_database";
 import * as drizzleDb from "@/db";
 import {db as dbClient} from "@/db";
-import {and, eq} from "drizzle-orm";
+import {and, eq, inArray} from "drizzle-orm";
 import {EDbmsSchema} from "@/db/schema/types";
 import {ServerActionResult} from "@/types/action-type";
 import {SafeActionResult} from "next-safe-action";
@@ -75,8 +75,15 @@ export async function handleDatabases(body: Body, agent: Agent, lastContact: Dat
                 .returning();
 
 
-            const backup = await dbClient.query.backup.findFirst({
-                where: and(eq(drizzleDb.schemas.backup.databaseId, databaseUpdated.id), eq(drizzleDb.schemas.backup.status, "waiting"))
+            // const backup = await dbClient.query.backup.findFirst({
+            //     where: and(eq(drizzleDb.schemas.backup.databaseId, databaseUpdated.id), eq(drizzleDb.schemas.backup.status, "waiting"))
+            // })
+
+            const activeBackup = await dbClient.query.backup.findFirst({
+                where: and(
+                    eq(drizzleDb.schemas.backup.databaseId, databaseUpdated.id),
+                    inArray(drizzleDb.schemas.backup.status, ["waiting", "ongoing"])
+                )
             })
 
 
@@ -85,13 +92,13 @@ export async function handleDatabases(body: Body, agent: Agent, lastContact: Dat
             })
 
 
-            if (backup) {
+            if (activeBackup && activeBackup.status == "waiting") {
                 backupAction = true
 
                 await dbClient
                     .update(drizzleDb.schemas.backup)
                     .set(withUpdatedAt({status: "ongoing"}))
-                    .where(eq(drizzleDb.schemas.backup.id, backup.id));
+                    .where(eq(drizzleDb.schemas.backup.id, activeBackup.id));
             }
 
             if (restoration) {

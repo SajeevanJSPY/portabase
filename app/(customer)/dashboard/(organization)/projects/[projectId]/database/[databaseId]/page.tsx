@@ -60,7 +60,7 @@ export default async function RoutePage(props: PageParams<{
         orderBy: (r, {desc}) => [desc(r.createdAt)],
     });
 
-    const isAlreadyBackup = backups.some((b) => b.status === "waiting");
+    const isAlreadyBackup = backups.some((b) => b.status === "waiting" || b.status === "ongoing");
     const isAlreadyRestore = restorations.some((r) => r.status === "waiting");
 
     const totalBackups = await db.select({count: drizzleDb.schemas.backup.id})
