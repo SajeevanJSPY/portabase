@@ -95,8 +95,6 @@ export const EmailForm = (props: EmailFormProps) => {
 
     return (
         <TooltipProvider>
-            <Card>
-                <CardContent>
                     <Form
                         form={form}
                         className="flex flex-col gap-4 mt-3"
@@ -182,23 +180,6 @@ export const EmailForm = (props: EmailFormProps) => {
                             )}
                         />
                         <div className="flex justify-between gap-4">
-
-                            {/*{props.defaultValues?.smtpFrom && (*/}
-                            {/*    <ButtonWithLoading*/}
-                            {/*        type="button"*/}
-                            {/*        isPending={mutationSendEmailTest.isPending}*/}
-                            {/*        onClick={async () => {*/}
-                            {/*            await mutationSendEmailTest.mutateAsync();*/}
-                            {/*        }}*/}
-                            {/*        icon={<Send/>}*/}
-                            {/*        size="default"*/}
-                            {/*        className="bg-green-600 hover:bg-green-700 text-white font-medium shadow-sm transition-all"*/}
-
-                            {/*    >Send email test</ButtonWithLoading>*/}
-                            {/*)}*/}
-
-
-
                             {props.defaultValues?.smtpFrom && (
                                 <Tooltip>
                                     <TooltipTrigger asChild>
@@ -227,14 +208,13 @@ export const EmailForm = (props: EmailFormProps) => {
                                     )}
                                 </Tooltip>
                             )}
-
-                            <Button
-                                type="submit"
-                            >Save</Button>
+                            <div className="flex justify-end">
+                                <Button type="submit">
+                                    Save
+                                </Button>
+                            </div>
                         </div>
                     </Form>
-                </CardContent>
-            </Card>
         </TooltipProvider>
     );
 };
