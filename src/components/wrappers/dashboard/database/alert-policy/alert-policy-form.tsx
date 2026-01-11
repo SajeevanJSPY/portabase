@@ -23,8 +23,8 @@ import {useRouter} from "next/navigation";
 import {Switch} from "@/components/ui/switch";
 import {getNotificationChannelIcon} from "@/components/wrappers/dashboard/admin/notifications/helpers";
 import {Card} from "@/components/ui/card";
-import {cn} from "@/lib/utils";
 import Link from "next/link";
+import {useIsMobile} from "@/hooks/use-mobile";
 
 type AlertPolicyFormProps = {
     onSuccess?: () => void;
@@ -35,6 +35,7 @@ type AlertPolicyFormProps = {
 
 export const AlertPolicyForm = ({database, notificationChannels, organizationId, onSuccess}: AlertPolicyFormProps) => {
     const router = useRouter()
+    const isMobile = useIsMobile()
     const organizationNotificationChannels = notificationChannels.map(channel => channel.id) ?? [];
 
 
@@ -159,9 +160,11 @@ export const AlertPolicyForm = ({database, notificationChannels, organizationId,
                 <div className="flex items-center justify-between">
                     <div>
                         <Label className="text-base font-medium">Configure Alerts</Label>
-                        <p className="text-xs text-muted-foreground mt-1">
-                            Choose which channels receive notifications for specific events.
-                        </p>
+                        {!isMobile && (
+                            <p className="text-xs text-muted-foreground mt-1">
+                                Choose which channels receive notifications for specific events.
+                            </p>
+                        )}
                     </div>
                     <Button
                         disabled={
@@ -184,7 +187,9 @@ export const AlertPolicyForm = ({database, notificationChannels, organizationId,
                             <InfoIcon className="h-8 w-8 text-muted-foreground/50"/>
                             <p className="font-medium text-sm text-foreground">No notification channels</p>
                             <p className="text-xs text-muted-foreground max-w-xs">
-                                Please <Link href={`/dashboard/settings`} className="underline underline-offset-4 hover:text-primary transition-colors">configure notification channels</Link> in your organization settings first.
+                                Please <Link href={`/dashboard/settings`}
+                                             className="underline underline-offset-4 hover:text-primary transition-colors">configure
+                                notification channels</Link> in your organization settings first.
                             </p>
                         </div>
                     ) : fields.length === 0 ? (
@@ -201,17 +206,17 @@ export const AlertPolicyForm = ({database, notificationChannels, organizationId,
                     ) : (
                         <div className="grid gap-4">
                             {fields.map((field, index) => (
-                                <Card key={field.id} className="p-4 transition-all hover:border-primary/50 relative group">
+                                <Card key={field.id} className="p-4 transition-all hover:border-primary/50 relative group min-w-0 overflow-hidden">
                                     <div className="flex flex-col gap-4">
-                                        <div className="grid grid-cols-[1fr_auto_auto] gap-3 items-end">
-                                            <div className="flex flex-col gap-1.5">
+                                        <div className="flex flex-row gap-2 items-start md:items-end flex-nowrap min-w-0 ">
+                                            <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                                                 <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest pl-0.5">
                                                     Notification Channel
                                                 </Label>
                                                 <FormField
                                                     control={form.control}
                                                     name={`alertPolicies.${index}.notificationChannelId`}
-                                                    render={({field}) => {
+                                                    render={({ field }) => {
                                                         const selectedIds = form
                                                             .watch("alertPolicies")
                                                             .map((a: AlertPolicyType) => a.notificationChannelId)
@@ -226,36 +231,38 @@ export const AlertPolicyForm = ({database, notificationChannels, organizationId,
                                                         const selectedChannel = notificationChannels.find(c => c.id === field.value);
 
                                                         return (
-                                                            <FormItem className="space-y-0">
-                                                                <Select onValueChange={field.onChange}
-                                                                        value={field.value?.toString() || ""}
-                                                                >
+                                                            <FormItem className="space-y-0 min-w-0">
+                                                                <Select onValueChange={field.onChange} value={field.value?.toString() || ""}>
                                                                     <FormControl>
-                                                                        <SelectTrigger className="h-9 w-full bg-background border-input">
+                                                                        <SelectTrigger className="h-9 w-full bg-background border-input min-w-0">
                                                                             <SelectValue placeholder="Select channel">
-                                                                                 {selectedChannel ? (
-                                                                                    <div className="flex items-center gap-2">
-                                                                                        <div className={cn("flex items-center justify-center h-4 w-4 rounded")}>
+                                                                                {selectedChannel && (
+                                                                                    <div className="flex items-center gap-2 min-w-0 w-full">
+                                                                                        <div className="flex items-center justify-center h-4 w-4 shrink-0">
                                                                                             {getNotificationChannelIcon(selectedChannel.provider)}
                                                                                         </div>
-                                                                                        <span className="truncate font-medium text-sm">{selectedChannel.name}</span>
-                                                                                        <span className="text-[9px] bg-secondary px-1.5 py-0.5 rounded text-muted-foreground ml-auto font-mono uppercase tracking-tighter">{selectedChannel.provider}</span>
+                                                                                        <span className="truncate font-medium text-sm min-w-0">
+                                                                                          {selectedChannel.name}
+                                                                                        </span>
+                                                                                        <span className="shrink-0 text-[9px] bg-secondary px-1.5 py-0.5 rounded text-muted-foreground font-mono uppercase">
+                                                                                          {selectedChannel.provider}
+                                                                                        </span>
                                                                                     </div>
-                                                                                ) : "Select channel"}
+                                                                                )}
                                                                             </SelectValue>
                                                                         </SelectTrigger>
                                                                     </FormControl>
                                                                     <SelectContent>
-                                                                        {availableNotificationChannels.map((channel) => (
-                                                                            <SelectItem key={channel.id.toString()}
-                                                                                        value={channel.id.toString()}>
-                                                                                <div className="flex items-center gap-2 w-full">
-                                                                                    <div className="text-muted-foreground scale-90">
+                                                                        {availableNotificationChannels.map(channel => (
+                                                                            <SelectItem key={channel.id.toString()} value={channel.id.toString()}>
+                                                                                <div className="flex items-center gap-2 w-full min-w-0">
+                                                                                    <div className="text-muted-foreground scale-90 shrink-0">
                                                                                         {getNotificationChannelIcon(channel.provider)}
                                                                                     </div>
-                                                                                    <span className="font-medium">{channel.name}</span>
-                                                                                    <span
-                                                                                        className="text-xs text-muted-foreground ml-2 capitalize">({channel.provider})</span>
+                                                                                    <span className="font-medium truncate min-w-0">{channel.name}</span>
+                                                                                    <span className="text-xs text-muted-foreground ml-2 capitalize shrink-0">
+                                                                                        ({channel.provider})
+                                                                                      </span>
                                                                                 </div>
                                                                             </SelectItem>
                                                                         ))}
@@ -267,63 +274,61 @@ export const AlertPolicyForm = ({database, notificationChannels, organizationId,
                                                     }}
                                                 />
                                             </div>
-
-                                            <div className="flex flex-col gap-1.5">
-                                                 <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest pl-0.5">
+                                            <div className="flex flex-col gap-1.5 shrink-0">
+                                                <Label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest pl-0.5">
                                                     Status
                                                 </Label>
-                                                 <FormField
+                                                <FormField
                                                     control={form.control}
                                                     name={`alertPolicies.${index}.enabled`}
-                                                    render={({field}) => (
+                                                    render={({ field }) => (
                                                         <FormItem className="space-y-0">
                                                             <FormControl>
-                                                                <div className="flex items-center h-9 px-3 rounded-md border border-input bg-background min-w-[90px] justify-between">
-                                                                    <Label htmlFor={`switch-${index}`} className="text-xs cursor-pointer font-medium text-foreground mr-2">
-                                                                        {field.value ? "Active" : "Off"}
-                                                                    </Label>
-                                                                    <Switch
-                                                                        checked={field.value}
-                                                                        onCheckedChange={field.onChange}
-                                                                        id={`switch-${index}`}
-                                                                        className="scale-75 origin-right"
-                                                                    />
+                                                                <div className="flex items-center h-9 px-1 md:px-3 rounded-md border border-input bg-background justify-between min-w-0">
+                                                                    {!isMobile && (
+                                                                        <Label htmlFor={`switch-${index}`} className="text-xs cursor-pointer font-medium text-foreground mr-2">
+                                                                            {field.value ? "Active" : "Off"}
+                                                                        </Label>
+                                                                    )}
+                                                                    <Switch checked={field.value} onCheckedChange={field.onChange} id={`switch-${index}`} className="scale-75 origin-right"/>
                                                                 </div>
                                                             </FormControl>
                                                         </FormItem>
                                                     )}
                                                 />
                                             </div>
-                                            
-                                            <div className="flex flex-col gap-1.5">
-                                         
+                                            <div className="flex flex-col gap-1.5 shrink-0 mt-auto">
                                                 <Button
                                                     type="button"
                                                     variant="outline"
                                                     size="icon"
                                                     className="h-9 w-9 text-muted-foreground hover:text-destructive hover:border-destructive/50 hover:bg-destructive/10 transition-colors border-input bg-background"
-                                                    onClick={() => removeAlertPolicy(index)}>
+                                                    onClick={() => removeAlertPolicy(index)}
+                                                >
                                                     <Trash2 className="w-4 h-4"/>
                                                 </Button>
                                             </div>
                                         </div>
-
                                         <FormField
                                             control={form.control}
                                             name={`alertPolicies.${index}.eventKinds`}
-                                            render={({field}) => (
-                                                <FormItem className="space-y-1.5">
-                                                    <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Trigger Events</FormLabel>
+                                            render={({ field }) => (
+                                                <FormItem className="space-y-1.5 min-w-0">
+                                                    <FormLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                                                        Trigger Events
+                                                    </FormLabel>
                                                     <FormControl>
-                                                        <MultiSelect
-                                                            options={EVENT_KIND_OPTIONS}
-                                                            onValueChange={field.onChange}
-                                                            defaultValue={field.value ?? []}
-                                                            placeholder="Select events to trigger notifications..."
-                                                            variant="inverted"
-                                                            animation={0}
-                                                            className="bg-background/50"
-                                                        />
+                                                        <div className="max-w-full overflow-hidden">
+                                                            <MultiSelect
+                                                                options={EVENT_KIND_OPTIONS}
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value ?? []}
+                                                                placeholder={isMobile ? "Select events...": "Select events to trigger notifications..."}
+                                                                variant="inverted"
+                                                                animation={0}
+                                                                className="bg-background/50 w-full min-w-0 flex-wrap"
+                                                            />
+                                                        </div>
                                                     </FormControl>
                                                     <FormMessage/>
                                                 </FormItem>
