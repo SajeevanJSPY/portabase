@@ -78,9 +78,6 @@ export const ProjectForm = (props: projectFormProps) => {
     });
 
     return (
-        <Card>
-            <CardHeader></CardHeader>
-            <CardContent>
                 <Form
                     form={form}
                     className="flex flex-col gap-4"
@@ -124,9 +121,11 @@ export const ProjectForm = (props: projectFormProps) => {
                             </FormItem>
                         )}
                     />
-                    <Button>{isCreate ? `Create Project` : `Update Project`}</Button>
+                    <div className="flex justify-end">
+                        <Button type="submit">
+                            {isCreate ? "Create" : "Update"}
+                        </Button>
+                    </div>
                 </Form>
-            </CardContent>
-        </Card>
     );
 };

@@ -57,54 +57,53 @@ export const AgentForm = (props: agentFormProps) => {
     });
 
 
-
-
     return (
         <TooltipProvider>
-            <Card>
-                <CardContent>
-                    <Form
-                        form={form}
-                        className="flex flex-col gap-4 mt-3"
-                        onSubmit={async (values) => {
-                            await mutation.mutateAsync(values);
-                        }}
-                    >
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            defaultValue=""
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Agent 1" {...field} />
-                                    </FormControl>
-                                    <FormDescription>Your agent project name</FormDescription>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            defaultValue=""
-                            name="description"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Description</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="This agent is for the client exemple.com" {...field}
-                                               value={field.value ?? ""}/>
-                                    </FormControl>
-                                    <FormDescription>Enter your project agent description</FormDescription>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                        <Button>{isCreate ? `Create agent` : `Save agent`}</Button>
-                    </Form>
-                </CardContent>
-            </Card>
+            <Form
+                form={form}
+                className="flex flex-col gap-4"
+                onSubmit={async (values) => {
+                    await mutation.mutateAsync(values);
+                }}
+            >
+                <FormField
+                    control={form.control}
+                    name="name"
+                    defaultValue=""
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Agent 1" {...field} />
+                            </FormControl>
+                            <FormDescription>Your agent project name</FormDescription>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    defaultValue=""
+                    name="description"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Input placeholder="This agent is for the client exemple.com" {...field}
+                                       value={field.value ?? ""}/>
+                            </FormControl>
+                            <FormDescription>Enter your project agent description</FormDescription>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+                <div className="flex justify-end">
+                    <Button type="submit">
+                        {isCreate ? "Create" : "Update"}
+                    </Button>
+                </div>
+            </Form>
+
         </TooltipProvider>
     );
 };
