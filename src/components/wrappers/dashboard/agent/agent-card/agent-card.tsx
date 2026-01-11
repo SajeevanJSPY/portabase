@@ -8,6 +8,8 @@ import {formatDateLastContact} from "@/utils/date-formatting";
 import {AgentWith} from "@/db/schema/08_agent";
 import {Activity, ChevronRight, Copy, Check, Fingerprint, Server, Database, ShieldCheck} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
+import {truncateWords} from "@/utils/text";
+import {useIsMobile} from "@/hooks/use-mobile";
 
 export type agentCardProps = {
     data: AgentWith;
@@ -15,6 +17,7 @@ export type agentCardProps = {
 
 export const AgentCard = (props: agentCardProps) => {
     const {data: agent} = props;
+    const isMobile = useIsMobile();
     const [isCopied, setIsCopied] = useState(false);
 
     const handleCopy = (e: React.MouseEvent) => {
@@ -38,7 +41,7 @@ export const AgentCard = (props: agentCardProps) => {
                 <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                     <div className="flex items-center gap-3">
                         <h3 className="text-lg font-black text-foreground group-hover:text-primary transition-colors truncate tracking-tight ">
-                            {agent.name}
+                            {isMobile ? truncateWords(agent.name, 2) : agent.name}
                         </h3>
                         {agent.version && (
                             <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-bold tracking-wider">
